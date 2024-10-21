@@ -11,7 +11,9 @@ GraphNode::~GraphNode()
     //// STUDENT CODE
     ////
 
-    delete _chatBot; 
+    // Fixed the segmentation fault by commenting out the _chatBot deallocation below.
+    //    -This is because the _chatBot memory is been deleted (freed) twoice.
+    //delete _chatBot; 
 
     ////
     //// EOF STUDENT CODE
