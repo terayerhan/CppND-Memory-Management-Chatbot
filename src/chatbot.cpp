@@ -92,6 +92,7 @@ ChatBot::ChatBot(ChatBot &&source) noexcept
     source._image = NULL;
 
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     source._chatLogic = nullptr;
 
     _rootNode = source._rootNode;
@@ -111,6 +112,7 @@ ChatBot &ChatBot::operator=(ChatBot &&source) noexcept
         source._image = NULL;   // Set source's image pointer to NULL
 
         _chatLogic = source._chatLogic;
+        _chatLogic->SetChatbotHandle(this);
         source._chatLogic = nullptr;
 
         _rootNode = source._rootNode;
