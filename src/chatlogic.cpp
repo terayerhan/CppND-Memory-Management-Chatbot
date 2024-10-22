@@ -42,10 +42,10 @@ ChatLogic::~ChatLogic()
     // }
 
     // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    {
-        delete *it;
-    }
+    // for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
+    // {
+    //     delete *it;
+    // }
 
     ////
     //// EOF STUDENT CODE
@@ -168,19 +168,23 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                                 return node->GetID() == std::stoi(childToken->second); });
 
                             // create new edge
-                            GraphEdge *edge = new GraphEdge(id);
+                            //GraphEdge *edge = new GraphEdge(id);
+                            std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
+
                             //edge->SetChildNode(*childNode);
                             edge->SetChildNode((*childNode).get());
                             //edge->SetParentNode(*parentNode);
                             edge->SetParentNode((*parentNode).get());
-                            _edges.push_back(edge);
+                            //_edges.push_back(edge); 
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
                             // store reference in child node and parent node
-                            (*childNode)->AddEdgeToParentNode(edge);
-                            (*parentNode)->AddEdgeToChildNode(edge);
+                            // (*childNode)->AddEdgeToParentNode(edge);
+                            // (*parentNode)->AddEdgeToChildNode(edge);
+                            (*childNode)->AddEdgeToParentNode(edge.get());  // Pass the handle for the parent edge to the child GraphNone.
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge));  // Move the ownership of the child edge to the parent GraphNode
                         }
 
                         ////
